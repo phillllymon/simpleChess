@@ -1,0 +1,10 @@
+:root {
+    --play-section-color: rgb(209, 94, 94);
+    --api-section-color: lightgray;
+    --top-margin: 50px;
+    --inner-margin: 20px;
+    --tabs-height: 37px;
+    --container-width: 850px;
+    --contain-height: 680px;
+    --tab-font-size: 23px;
+}

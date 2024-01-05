@@ -1,0 +1,48 @@
+#board {
+    width: 640px;
+    height: 640px;
+    border: 2px solid brown;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: var(--inner-margin);
+}
+
+.space {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+    cursor: default;
+}
+
+.white_space {
+    background-color: lightgray;
+}
+
+.black_space {
+    background-color: darkgray;
+}
+
+.piece {
+    cursor: grab;
+    user-select: none;
+}
+
+.piece:active {
+    cursor: grabbing;
+}
+
+.selected {
+    box-sizing: border-box;
+    border: 4px solid green;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+}
