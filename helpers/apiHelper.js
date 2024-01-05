@@ -1,16 +1,40 @@
 import { gridToStr, strToGrid } from "./strToGrid.js";
 import { updateBoard } from "./board.js";
 
+export function validateMove(move) {
+    return new Promise((resolve) => {
+        fetch("https://airbackend.com/chessMove/api.php", {
+            method: "POST",
+            body: JSON.stringify({
+                request: "checkMove",
+                gameState: packageGame(document.game),
+                move: move
+            })
+        }).then((res) => {
+            res.json().then((r) => {
+                console.log("---------------");
+                console.log(r);
+                console.log("---------------");
+                resolve(r.moveValid);
+            });
+        });
+    });
+}
+
 export function requestComputerMove(level = 3) {
     return new Promise((resolve) => {
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
             body: JSON.stringify({
+                request: "nextMove",
                 gameState: packageGame(document.game),
                 level: level
             })
         }).then((res) => {
             res.json().then((r) => {
+                console.log("---------------");
+                console.log(r);
+                console.log("---------------");
                 if (r.gameOver) {
                     resolve(r.gameOver);
                 } else {
@@ -34,7 +58,6 @@ export function packageGame(game) {
 }
 
 export function unpackGame(str) {
-    console.log(str);
     return {
         grid: strToGrid(str),
         turn: str[64],

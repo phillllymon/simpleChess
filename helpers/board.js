@@ -1,5 +1,6 @@
 import { getPieceSymbol } from "./getPieceSymbol.js";
 import { requestAndMakeComputerMove } from "./chess.js";
+import { validateMove } from "./apiHelper.js";
 
 export function populateBoard() {
     document.game = {
@@ -83,43 +84,50 @@ function handleSelect(space) {
             document.game.selectedSpace = false;
             space.classList.remove("selected");
         } else {
-            if (handleMoveAttempt(document.game.selectedSpace, space)) {
-                document.game.selectedSpace = false;
-            } else {
-                document.game.selectedSpace.classList.remove("selected");
-                document.game.selectedSpace = space;
-                space.classList.add("selected");
-            }
+            handleMoveAttempt(document.game.selectedSpace, space).then((moveValid) => {
+                if (moveValid) {
+                    document.game.selectedSpace = false;
+                } else {
+                    document.game.selectedSpace.classList.remove("selected");
+                    document.game.selectedSpace = space;
+                    space.classList.add("selected");
+                }
+            });
         }
     }
 }
 
 function handleMousedown(space) {
-    console.log("down " + space.id);
+    // console.log("down " + space.id);
 }
 
 function handleMouseup(space) {
-    console.log("up " + space.id);
+    // console.log("up " + space.id);
 }
 
 function handleMoveAttempt(from, to) {
-    console.log(from.id + " to " + to.id);
+    return new Promise((resolve) => {
+        const fromPos = from.id.split("").map((ele) => {
+            return parseInt(ele);
+        });
+        const toPos = to.id.split("").map((ele) => {
+            return parseInt(ele);
+        });
+    
+        validateMove([backendPos(fromPos), backendPos(toPos)]).then((valid) => {
+            if (valid) {
+                document.game.grid[toPos[0]][toPos[1]] = document.game.grid[fromPos[0]][fromPos[1]];
+                document.game.grid[fromPos[0]][fromPos[1]] = "-";
+                updateBoard(document.game.grid);
+                document.game.turn = document.game.turn === "w" ? "b" : "w";
+                requestAndMakeComputerMove();
+                resolve(true);
+            }
+            resolve(false);
+        });
+    })
+}
 
-    // temp
-    const fromPos = from.id.split("").map((ele) => {
-        return parseInt(ele);
-    });
-    const toPos = to.id.split("").map((ele) => {
-        return parseInt(ele);
-    });
-    const fromPiece = document.game.grid[fromPos[0]][fromPos[1]];
-    if (fromPiece !== "-") {
-        document.game.grid[toPos[0]][toPos[1]] = document.game.grid[fromPos[0]][fromPos[1]];
-        document.game.grid[fromPos[0]][fromPos[1]] = "-";
-        updateBoard(document.game.grid);
-        document.game.turn = document.game.turn === "w" ? "b" : "w";
-        requestAndMakeComputerMove();
-        return true;
-    }
-    return false;
+export function backendPos(pos) {
+    return [7 - pos[0], pos[1]];
 }
