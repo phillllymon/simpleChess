@@ -4,7 +4,7 @@ import { updateBoard } from "./board.js";
 
 
 export function requestAndMakeComputerMove() {
-    requestComputerMove(3).then((nextMove) => {
+    requestComputerMove(4).then((nextMove) => {
         if (nextMove.length < 64) {
             alert(nextMove);
         } else {

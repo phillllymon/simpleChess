@@ -22,6 +22,7 @@ export function validateMove(move) {
 }
 
 export function requestComputerMove(level = 3) {
+    console.log(packageGame(document.game));
     return new Promise((resolve) => {
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
@@ -51,9 +52,12 @@ export function packageGame(game) {
     let answer = gridToStr(game.grid);
     answer += game.turn;
     answer += game.canCastle.join("");
-    if (game.enPassant !== undefined) {
+    // console.log(game.enPassant.join(""));
+    if (game.enPassant) {
         answer += game.enPassant.join("");
     }
+    // console.log(game.enPassant);
+    // console.log(game.enPassant.join(""));
     return answer;
 }
 
