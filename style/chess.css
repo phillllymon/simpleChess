@@ -26,6 +26,10 @@
     background-color: darkgray;
 }
 
+.highlighted_space {
+    background-color: orange;
+}
+
 .piece {
     cursor: grab;
     user-select: none;

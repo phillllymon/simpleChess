@@ -43,7 +43,13 @@ export function populateBoard() {
 }
 
 export function updateBoard(grid) {
-    document.getElementById("board").innerHTML = "";
+    const board = document.getElementById("board");
+    const oldGrid = board.children;
+    const oldGridHTML = [];
+    for (let i = 0; i < oldGrid.length; i++) {
+        oldGridHTML.push("" + oldGrid[i].innerHTML);
+    }
+    board.innerHTML = "";
     grid.forEach((row, r) => {
         row.forEach((piece, c) => {
             const space = document.createElement("div");
@@ -60,6 +66,13 @@ export function updateBoard(grid) {
                 space.addEventListener("mousedown", (e) => {
                     handleMousedown(e.target);
                 });
+            }
+            if (oldGridHTML.length > 0) {
+                console.log(oldGridHTML[(8 * r) + c]);
+                console.log(getPieceSymbol(piece));
+                if (oldGridHTML[(8 * r) + c] !== space.innerHTML) {
+                    space.classList.add("highlighted_space");
+                }
             }
             space.addEventListener("click", (e) => {
                 handleSelect(e.target);
