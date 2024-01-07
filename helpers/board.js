@@ -39,10 +39,6 @@ export function populateBoard() {
         },
         selectedSpace: false
     }
-    document.selectedPieces = {
-        dragging: false,
-        selected: false
-    }
     updateBoard(document.game.grid);
     if (document.game.players[document.game.turn] === "human") {
         document.playerControl = true;
@@ -89,9 +85,6 @@ export function updateBoard(grid, highlight = true) {
                     space.classList.add("highlighted_space");
                 }
             }
-            space.addEventListener("click", (e) => {
-                handleSelect(e.target);
-            });
             space.addEventListener("mouseup", (e) => {
                 handleMouseup(e.target);
             });
@@ -131,11 +124,32 @@ function handleSelect(space) {
 }
 
 function handleMousedown(space) {
-    // console.log("down " + space.id);
+    document.dragging = true;
+    document.dragOrigin = space;
+    space.style.color = "rgba(0, 0, 0, 0.5)";
+    const dragEle = document.getElementById("dragging_piece");
+    dragEle.innerHTML = space.innerHTML;
+    dragEle.style.top = `${space.getBoundingClientRect().top}px`;
+    dragEle.style.left = `${space.getBoundingClientRect().left}px`;
 }
 
 function handleMouseup(space) {
-    // console.log("up " + space.id);
+    const dragEle = document.getElementById("dragging_piece");
+    if (document.dragging && document.dragOrigin.id === space.id) {
+        dragEle.innerHTML = "";
+        document.dragOrigin.style.color = "black";
+        document.dragging = false;
+        document.dragOrigin = false;
+        handleSelect(space);
+    } else if (document.dragging) {
+        handleMoveAttempt(document.dragOrigin, space);
+        dragEle.innerHTML = "";
+        document.dragOrigin.style.color = "black";
+        document.dragging = false;
+        document.dragOrigin = false;
+    } else {
+        handleSelect(space);
+    }
 }
 
 function handleMoveAttempt(from, to) {

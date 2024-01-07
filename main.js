@@ -1,65 +1,55 @@
-
-import { strToGrid } from "./helpers/strToGrid.js";
-import { packageGame, unpackGame } from "./helpers/apiHelper.js";
 import { activateTabControls, activateBoardControls } from "./helpers/activateControls.js";
 import { populateBoard } from "./helpers/board.js";
-import { startGame } from "./helpers/chess.js";
+
 
 // main
-document.rejectAiMove = false;
+
 activateTabControls();
 populateBoard(); // also activates dragging, selecting, and piece move behavior
 activateBoardControls();
 
+document.rejectAiMove = false;  // needed only if switch sides
+
+// piece dragging ui
+document.dragging = false;
+document.dragOrigin = false;
+const board = document.getElementById("board");
+const dragEle = document.getElementById("dragging_piece");
+board.addEventListener("mousemove", (e) => {
+    if (document.dragging) {
+        console.log(dragEle);
+        console.log(e.clientX);
+        dragEle.style.left = `${e.clientX - 40}px`;
+        dragEle.style.top = `${e.clientY - 40}px`;
+    }
+});
+board.addEventListener("mouseleave", (e) => {
+    document.dragOrigin.style.color = "black";
+    document.dragging = false;
+    document.dragOrigin = false;
+    dragEle.innerHTML = "";
+});
+
+// trying out animations for computer thinking....
+const thinks = [
+    "thinking&nbsp;&nbsp;&nbsp;&nbsp;",
+    "thinking.&nbsp;&nbsp;&nbsp;",
+    "thinking..&nbsp;&nbsp;",
+    "thinking...&nbsp;",
+    "thinking...."
+];
+let i = 0;
+setInterval(() => {
+    i += 1;
+    if (i > thinks.length - 1) {
+        i = 0;
+    }
+    [
+        "black",
+        "white"
+    ].forEach((color) => {
+        document.getElementById(`${color}_message`).innerHTML = thinks[i];
+    });
+}, 750);
 
 // ^ main ^
-
-
-
-
-
-
-
-// initial render
-// updateBoard(game.grid);
-
-
-// recursiveMakeNextMove(game, 500);
-
-// document.turns = 0;
-
-
-
-
-
-// fetch("https://airbackend.com/chessMove/api.php", {
-//     method: "POST",
-//     body: JSON.stringify({
-//         gameState: packageGame(game)
-//     })
-// }).then((res) => {
-//     res.json().then((r) => {
-//         game = unpackGame(r.next);
-//         updateBoard(game.grid);
-
-//         console.log("&&&&&&&");
-//         console.log(r);
-
-//         fetch("https://airbackend.com/chessMove/api.php", {
-//             method: "POST",
-//             body: JSON.stringify({
-//                 gameState: packageGame(game)
-//             })
-//         }).then((s) => {
-//             s.json().then((t) => {
-//                 game = unpackGame(t.next);
-//                 updateBoard(game.grid);
-
-//                 console.log("#######");
-//                 console.log(r);
-
-//             });
-//         });
-
-//     });
-// });

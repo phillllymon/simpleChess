@@ -15,8 +15,8 @@
     border-bottom: 2px solid gray;
     cursor: pointer;
     user-select: none;
-    background-color: black;
-    color: lightgray;
+    background-color: darkgray;
+    color: black;
     font-family: sans-serif;
     display: flex;
     font-size: 20px;
@@ -148,8 +148,24 @@
     width: 30px;
 }
 
+.white_section {
+    background-color: darkgray;
+    color: white;
+}
+
 .your_turn {
     font-size: 25px;
     margin-top: 10px;
     color: orange;
+}
+
+#dragging_piece {
+    position: fixed;
+    font-size: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
 }
