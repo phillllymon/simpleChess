@@ -98,7 +98,6 @@ function flipVisibility() {
             selectLevel.classList.add("hidden");
             levels1.classList.add("hidden");
             levels2.classList.add("hidden");
-            console.log("poooooooop");
         } else {
             humanButton.classList.remove("control_button_selected");
             aiButton.classList.add("control_button_selected");
@@ -107,7 +106,6 @@ function flipVisibility() {
             yourTurn.classList.add("hidden");
             levels1.classList.remove("hidden");
             levels2.classList.remove("hidden");
-            console.log("hiding " + color + " yourTurn");
         }
         document.getElementById(`${color}_message`).classList.add("hidden");
     });

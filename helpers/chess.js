@@ -12,7 +12,6 @@ export function requestAndMakeComputerMove() {
             } else {
                 if (!document.rejectAiMove) { // see activateControls.js/switchSides
                     const updatedGame = unpackGame(nextMove);
-                    console.log(updatedGame);
                     document.game.grid = updatedGame.grid;
                     document.game.canCastle = updatedGame.canCastle;
                     document.game.turn = updatedGame.turn;

@@ -4,7 +4,6 @@ import { updateBoard } from "./board.js";
 export function validateMove(move) {
     return new Promise((resolve) => {
         // see if it's a human player's turn
-        console.log(document.game.players);
         if (document.game.players[document.game.turn] === "human") {
             fetch("https://airbackend.com/chessMove/api.php", {
                 method: "POST",
@@ -15,21 +14,16 @@ export function validateMove(move) {
                 })
             }).then((res) => {
                 res.json().then((r) => {
-                    console.log("---------------");
-                    console.log(r);
-                    console.log("---------------");
                     resolve(r.moveValid);
                 });
             });
         } else {
-            console.log("it's not your turn!");
             resolve(false);
         }
     });
 }
 
 export function requestComputerMove(level = 3) {
-    console.log(packageGame(document.game));
     return new Promise((resolve) => {
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
@@ -40,9 +34,6 @@ export function requestComputerMove(level = 3) {
             })
         }).then((res) => {
             res.json().then((r) => {
-                console.log("---------------");
-                console.log(r);
-                console.log("---------------");
                 if (r.gameOver) {
                     resolve(r.gameOver);
                 } else {
@@ -59,12 +50,9 @@ export function packageGame(game) {
     let answer = gridToStr(game.grid);
     answer += game.turn;
     answer += game.canCastle.join("");
-    // console.log(game.enPassant.join(""));
     if (game.enPassant) {
         answer += game.enPassant.join("");
     }
-    // console.log(game.enPassant);
-    // console.log(game.enPassant.join(""));
     return answer;
 }
 

@@ -17,17 +17,17 @@ const board = document.getElementById("board");
 const dragEle = document.getElementById("dragging_piece");
 board.addEventListener("mousemove", (e) => {
     if (document.dragging) {
-        console.log(dragEle);
-        console.log(e.clientX);
         dragEle.style.left = `${e.clientX - 40}px`;
         dragEle.style.top = `${e.clientY - 40}px`;
     }
 });
 board.addEventListener("mouseleave", (e) => {
-    document.dragOrigin.style.color = "black";
-    document.dragging = false;
-    document.dragOrigin = false;
-    dragEle.innerHTML = "";
+    if (document.dragging) {
+        document.dragOrigin.style.color = "black";
+        document.dragging = false;
+        document.dragOrigin = false;
+        dragEle.innerHTML = "";
+    }
 });
 
 // trying out animations for computer thinking....

@@ -99,7 +99,6 @@ export function updateBoard(grid, highlight = true) {
 
 
 function handleSelect(space) {
-    console.log(document.playerControl);
     if (document.playerControl) {
         if (!document.game.selectedSpace) {
             document.game.selectedSpace = space;
