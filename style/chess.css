@@ -3,9 +3,17 @@
     height: 640px;
     border: 2px solid brown;
     display: flex;
+    margin: var(--inner-margin);
+}
+
+.not_flipped {
     flex-direction: row;
     flex-wrap: wrap;
-    margin: var(--inner-margin);
+}
+
+.board_flipped {
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
 }
 
 .space {

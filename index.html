@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/tabs.css">
     <link rel="stylesheet" href="style/vars.css">
+    <link rel="stylesheet" href="style/controls.css">
     <link rel="stylesheet" href="style/chess.css">
     <title>Simple chess</title>
 </head>
@@ -22,7 +23,120 @@
         </div>
         <div id="options_container">
             <div id="play_section">
-                <div id="board"></div>
+                <div id="board" class="not_flipped"></div>
+                <div id="controls_vertical_container">
+                    <div id="restart_button">
+                        Restart game
+                    </div>
+                    <div id="board_controls" class="controls_not_flipped">
+                        <div id="black_controls" class="player_controls">
+                            <br/>
+                            Black Player:
+                            <br/>
+                            <div class="control_row">
+                                <div id="black_human_button" class="control_button">
+                                    Human
+                                </div>
+                                <div id="black_ai_button" class="control_button control_button_selected">
+                                    AI
+                                </div>
+                            </div>
+                            <div id="black_human" class="hidden">
+                                This is a human player
+                            </div>
+                            <div id="black_turn" class="your_turn hidden">
+                                Your turn!
+                            </div>
+                            <div id="black_select_level">
+                                Select AI level:
+                            </div>
+                            <div id="black_ai_levels_1" class="control_row">
+                                <div id="black_0_button" class="control_button button_small">
+                                    0
+                                </div>
+                                <div id="black_1_button" class="control_button button_small">
+                                    1
+                                </div>
+                                <div id="black_2_button" class="control_button button_small">
+                                    2
+                                </div>
+                            </div>
+                            <div id="black_ai_levels_2" class="control_row">
+                                <div id="black_3_button" class="control_button button_small control_button_selected">
+                                    3
+                                </div>
+                                <div id="black_4_button" class="control_button button_small">
+                                    4
+                                </div>
+                                <div id="black_5_button" class="control_button button_small">
+                                    5
+                                </div>
+                            </div>
+                            <div id="black_message" class="hidden">
+                                thinking...
+                            </div>
+                        </div>
+                        <div id="neutral_controls">
+                            <div id="switch_sides_button" class="neutral_button">
+                                <div>&uarr;</div>
+                                <div class="squish">&darr;</div>
+                            </div>
+                            <div id="turn_board_button" class="neutral_button">
+                                <div class="upsidedown">&crarr;</div>
+                                <div class="squish">&crarr;</div>
+                            </div>
+                            <div id="neutral_button_message">
+                            </div>
+                        </div>
+                        <div id="white_controls" class="player_controls">
+                            <br/>
+                            White Player:
+                            <br/>
+                            <div class="control_row">
+                                <div id="white_human_button" class="control_button control_button_selected">
+                                    Human
+                                </div>
+                                <div id="white_ai_button" class="control_button">
+                                    AI
+                                </div>
+                            </div>
+                            <div id="white_human">
+                                This is a human player
+                            </div>
+                            <div id="white_turn" class="your_turn">
+                                Your turn!
+                            </div>
+                            <div id="white_select_level" class="hidden">
+                                Select AI level:
+                            </div>
+                            <div id="white_ai_levels_1" class="control_row hidden">
+                                <div id="white_0_button" class="control_button button_small">
+                                    0
+                                </div>
+                                <div id="white_1_button" class="control_button button_small">
+                                    1
+                                </div>
+                                <div id="white_2_button" class="control_button button_small">
+                                    2
+                                </div>
+                            </div>
+                            <div id="white_ai_levels_2" class="control_row hidden">
+                                <div id="white_3_button" class="control_button button_small control_button_selected">
+                                    3
+                                </div>
+                                <div id="white_4_button" class="control_button button_small">
+                                    4
+                                </div>
+                                <div id="white_5_button" class="control_button button_small">
+                                    5
+                                </div>
+                            </div>
+                            <div id="white_message" class="hidden">
+                                thinking...
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="api_section" class="hidden">
                 <br/>

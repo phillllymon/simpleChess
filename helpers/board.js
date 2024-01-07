@@ -31,7 +31,11 @@ export function populateBoard() {
         gameOver: false,
         players: {
             "w": "human",
-            "b": "api"
+            "b": "ai"
+        },
+        aiLevels: {
+            "w": 3,
+            "b": 3
         },
         selectedSpace: false
     }
@@ -40,9 +44,22 @@ export function populateBoard() {
         selected: false
     }
     updateBoard(document.game.grid);
+    if (document.game.players[document.game.turn] === "human") {
+        document.playerControl = true;
+    } else {
+        document.playerControl = false;
+    }
 }
 
-export function updateBoard(grid) {
+function startPlayerControl() {
+    document.playerControl = true;
+}
+
+function stopPlayerControl() {
+    document.playerControl = false;
+}
+
+export function updateBoard(grid, highlight = true) {
     const board = document.getElementById("board");
     const oldGrid = board.children;
     const oldGridHTML = [];
@@ -67,9 +84,7 @@ export function updateBoard(grid) {
                     handleMousedown(e.target);
                 });
             }
-            if (oldGridHTML.length > 0) {
-                console.log(oldGridHTML[(8 * r) + c]);
-                console.log(getPieceSymbol(piece));
+            if (oldGridHTML.length > 0 && highlight) {
                 if (oldGridHTML[(8 * r) + c] !== space.innerHTML) {
                     space.classList.add("highlighted_space");
                 }
@@ -88,24 +103,29 @@ export function updateBoard(grid) {
     });
 }
 
+
+
 function handleSelect(space) {
-    if (!document.game.selectedSpace) {
-        document.game.selectedSpace = space;
-        space.classList.add("selected");
-    } else {
-        if (space.id === document.game.selectedSpace.id) {
-            document.game.selectedSpace = false;
-            space.classList.remove("selected");
+    console.log(document.playerControl);
+    if (document.playerControl) {
+        if (!document.game.selectedSpace) {
+            document.game.selectedSpace = space;
+            space.classList.add("selected");
         } else {
-            handleMoveAttempt(document.game.selectedSpace, space).then((moveValid) => {
-                if (moveValid) {
-                    document.game.selectedSpace = false;
-                } else {
-                    document.game.selectedSpace.classList.remove("selected");
-                    document.game.selectedSpace = space;
-                    space.classList.add("selected");
-                }
-            });
+            if (space.id === document.game.selectedSpace.id) {
+                document.game.selectedSpace = false;
+                space.classList.remove("selected");
+            } else {
+                handleMoveAttempt(document.game.selectedSpace, space).then((moveValid) => {
+                    if (moveValid) {
+                        document.game.selectedSpace = false;
+                    } else {
+                        document.game.selectedSpace.classList.remove("selected");
+                        document.game.selectedSpace = space;
+                        space.classList.add("selected");
+                    }
+                });
+            }
         }
     }
 }
@@ -119,6 +139,7 @@ function handleMouseup(space) {
 }
 
 function handleMoveAttempt(from, to) {
+    stopPlayerControl();
     return new Promise((resolve) => {
         const fromPos = from.id.split("").map((ele) => {
             return parseInt(ele);
@@ -133,13 +154,49 @@ function handleMoveAttempt(from, to) {
             if (valid) {
                 makeMove(document.game.grid, move);
                 updateBoard(document.game.grid);
+                const color = document.game.turn === "b" ? "black" : "white";
+                document.getElementById(`${color}_turn`).classList.add("hidden");
                 document.game.turn = document.game.turn === "w" ? "b" : "w";
-                requestAndMakeComputerMove();
+                // see if next move is computer
+                if (document.game.players[document.game.turn] === "ai") {
+                    computerTakeTurn();
+                    const oppColor = document.game.turn === "b" ? "white" : "black";
+                    const yourTurn = document.getElementById(`${oppColor}_turn`);
+                    yourTurn.classList.add("hidden");
+                } else {
+                    startPlayerControl();
+                    const oppColor = document.game.turn === "w" ? "white" : "black";
+                    const yourTurn = document.getElementById(`${oppColor}_turn`);
+                    yourTurn.classList.remove("hidden");
+                }
                 resolve(true);
+            } else {
+                startPlayerControl();
+                resolve(false);
             }
-            resolve(false);
         });
     })
+}
+
+export function computerTakeTurn() {
+    stopPlayerControl();
+    const color = document.game.turn === "w" ? "white" : "black";
+    const oppColor = document.game.turn === "b" ? "white" : "black";
+    const yourTurn = document.getElementById(`${oppColor}_turn`);
+    yourTurn.classList.add("hidden");
+    const aiMessage = document.getElementById(`${color}_message`);
+    aiMessage.classList.remove("hidden");
+    requestAndMakeComputerMove().then((success) => {
+        if (success) {
+            aiMessage.classList.add("hidden");
+            if (document.game.players[document.game.turn] === "ai") {
+                computerTakeTurn();
+            } else {
+                startPlayerControl();
+                yourTurn.classList.remove("hidden");
+            }
+        }
+    });
 }
 
 // move in backend notation, grid is frontend grid

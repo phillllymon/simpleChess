@@ -3,21 +3,28 @@ import { updateBoard } from "./board.js";
 
 export function validateMove(move) {
     return new Promise((resolve) => {
-        fetch("https://airbackend.com/chessMove/api.php", {
-            method: "POST",
-            body: JSON.stringify({
-                request: "checkMove",
-                gameState: packageGame(document.game),
-                move: move
-            })
-        }).then((res) => {
-            res.json().then((r) => {
-                console.log("---------------");
-                console.log(r);
-                console.log("---------------");
-                resolve(r.moveValid);
+        // see if it's a human player's turn
+        console.log(document.game.players);
+        if (document.game.players[document.game.turn] === "human") {
+            fetch("https://airbackend.com/chessMove/api.php", {
+                method: "POST",
+                body: JSON.stringify({
+                    request: "checkMove",
+                    gameState: packageGame(document.game),
+                    move: move
+                })
+            }).then((res) => {
+                res.json().then((r) => {
+                    console.log("---------------");
+                    console.log(r);
+                    console.log("---------------");
+                    resolve(r.moveValid);
+                });
             });
-        });
+        } else {
+            console.log("it's not your turn!");
+            resolve(false);
+        }
     });
 }
 

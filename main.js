@@ -1,14 +1,15 @@
 
 import { strToGrid } from "./helpers/strToGrid.js";
 import { packageGame, unpackGame } from "./helpers/apiHelper.js";
-import { activateTabControls } from "./helpers/activateControls.js";
+import { activateTabControls, activateBoardControls } from "./helpers/activateControls.js";
 import { populateBoard } from "./helpers/board.js";
 import { startGame } from "./helpers/chess.js";
 
 // main
+document.rejectAiMove = false;
 activateTabControls();
 populateBoard(); // also activates dragging, selecting, and piece move behavior
-// activateGameControls();
+activateBoardControls();
 
 
 // ^ main ^

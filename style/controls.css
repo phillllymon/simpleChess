@@ -1,0 +1,155 @@
+#controls_vertical_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: space-between;
+    height: 640px;
+}
+
+#restart_button {
+    height: 40px;
+    width: 140px;
+    border-top: 2px solid lightgray;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    cursor: pointer;
+    user-select: none;
+    background-color: black;
+    color: lightgray;
+    font-family: sans-serif;
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--inner-margin);
+    margin-right: var(--inner-margin);
+}
+
+#board_controls {
+    width: 140px;
+    height: 550px;
+    border: 2px solid brown;
+    background-color: darkgray;
+    margin-right: var(--inner-margin);
+    display: flex;
+}
+
+.controls_not_flipped {
+    flex-direction: column;
+}
+
+.board_controls_flipped {
+    flex-direction: column-reverse;
+}
+
+.player_controls {
+    width: 100%;
+    height: 225px;
+    font-family: sans-serif;
+}
+
+#neutral_controls {
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+    position: relative;
+}
+
+.neutral_button {
+    width: 40px;
+    height: 40px;
+    border-top: 2px solid lightgray;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    cursor: pointer;
+    user-select: none;
+    background-color: black;
+    color: white;
+    display: flex;
+    font-size: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+.neutral_button:active {
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+    border-right: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+}
+
+#restart_button:active {
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+    border-right: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+}
+
+.upsidedown {
+    transform: rotate(180deg);
+    width: 8px;
+    display: flex;
+    justify-content: right;
+}
+
+.squish {
+    width: 15px;
+}
+
+#neutral_button_message {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    height: 25px;
+    width: 100%;
+    transform: translate(-50%, -100%);
+    color: lightgray;
+    font-family: sans-serif;
+}
+
+.control_row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.control_button {
+    height: 30px;
+    width: 62px;
+    color: lightgray;
+    background-color: black;
+    border-top: 2px solid lightgray;
+    border-left: 2px solid lightgray;
+    border-right: 2px solid gray;
+    border-bottom: 2px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.control_button_selected {
+    background-color: orange;
+    border-top: 2px solid gray;
+    border-left: 2px solid gray;
+    border-right: 2px solid lightgray;
+    border-bottom: 2px solid lightgray;
+}
+
+.button_small {
+    width: 30px;
+}
+
+.your_turn {
+    font-size: 25px;
+    margin-top: 10px;
+    color: orange;
+}
