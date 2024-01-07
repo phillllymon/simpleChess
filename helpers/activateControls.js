@@ -70,6 +70,47 @@ function switchSides() {
     document.game.players.b = oldWPlayer.player;
     document.game.aiLevels.b = oldWPlayer.aiLevel;
     flipPerspective(); // makes sense to do this too - can easily flip back if this isn't desired
+    flipVisibility();
+}
+
+function flipVisibility() {
+    [
+        "black",
+        "white"
+    ].forEach((color) => {
+        const gameColor = color === "white" ? "w" : "b";
+        const humanButton = document.getElementById(`${color}_human_button`);
+        const aiButton = document.getElementById(`${color}_ai_button`);
+        const human = document.getElementById(`${color}_human`);
+        const selectLevel = document.getElementById(`${color}_select_level`);
+        const yourTurn = document.getElementById(`${color}_turn`);
+        const levels1 = document.getElementById(`${color}_ai_levels_1`);
+        const levels2 = document.getElementById(`${color}_ai_levels_2`);
+        if (document.game.players[gameColor] === "human") {
+            humanButton.classList.add("control_button_selected");
+            aiButton.classList.remove("control_button_selected");
+            human.classList.remove("hidden");
+            if (document.game.turn === gameColor) {
+                yourTurn.classList.remove("hidden");
+            } else {
+                yourTurn.classList.add("hidden");
+            }
+            selectLevel.classList.add("hidden");
+            levels1.classList.add("hidden");
+            levels2.classList.add("hidden");
+            console.log("poooooooop");
+        } else {
+            humanButton.classList.remove("control_button_selected");
+            aiButton.classList.add("control_button_selected");
+            human.classList.add("hidden");
+            selectLevel.classList.remove("hidden");
+            yourTurn.classList.add("hidden");
+            levels1.classList.remove("hidden");
+            levels2.classList.remove("hidden");
+            console.log("hiding " + color + " yourTurn");
+        }
+        document.getElementById(`${color}_message`).classList.add("hidden");
+    });
 }
 
 function flipPerspective() {
