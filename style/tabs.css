@@ -37,7 +37,12 @@
     
 }
 
-#api_tab {
+#api_guide_tab {
+    background-color: var(--api-section-color);
+    border-right: 1px solid black;
+}
+
+#explore_api_tab {
     background-color: var(--api-section-color);
 }
 
@@ -61,8 +66,9 @@
     background-color: var(--play-section-color);
 }
 
-#api_section {
+#api_guide_section {
     background-color: var(--api-section-color);
     text-align: left;
     padding: 20px;
+    box-sizing: border-box;
 }

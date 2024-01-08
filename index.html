@@ -25,12 +25,15 @@
             <div id="play_tab" class="tab">
                 Play chess
             </div>
-            <div id="api_tab" class="tab inactive_tab">
+            <div id="api_guide_tab" class="tab inactive_tab">
+                API guide
+            </div>
+            <div id="explore_api_tab" class="tab inactive_tab">
                 Explore API
             </div>
         </div>
         <div id="options_container">
-            <div id="play_section" class="hidden">
+            <div id="play_section">
                 <div id="board" class="not_flipped"></div>
                 <div id="controls_vertical_container">
                     <div id="restart_button">
@@ -148,10 +151,9 @@
                     </div>
                 </div>
             </div>
-            <div id="api_section">
+            <div id="api_guide_section" class="hidden">
                 <h2>Guide to simpleChessMove API</h2>
                 The simpleChessMove API is publicly available and can suggest a move for any game. Below is an example query:
-                <br/>
                 <p class="api_text_box">
                     fetch("https://airbackend.com/chessMove/api.php", {
                         <br/>
@@ -291,6 +293,54 @@
                 <br/>
                 &nbsp; &nbsp;
                 Ex: [[6, 3], [7, 3], "r"] is a pawn move from [6, 3] to [7, 3] and promoting it to a white rook.
+                <br/>
+                <h2>Using the API to validate a move</h2>
+                The API can also be used to check if a move is legal. Here's an example query:
+                <p class="api_text_box">
+                    fetch("https://airbackend.com/chessMove/api.php", {
+                        <br/>
+                        &nbsp; &nbsp;
+                        method: "POST",
+                        <br/>
+                        &nbsp; &nbsp;
+                        body: JSON.stringify({
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            request: "checkMove",
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            gameState: "rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNRw1111",
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            move: [[0, 1], [2, 2]]
+                            <br/>
+                            &nbsp; &nbsp;
+                        }).then((result) => {
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            result.json().then((jsonResult) => {
+                                <br/>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                console.log(jsonResult);
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            });
+                        <br/>
+                        &nbsp; &nbsp;
+                        });
+                        <br/>
+                    });
+                </p>
+
+                Stay tuned - more explanation and examples to come!
+
+            </div>
+            <div id="explore_api_section" class="hidden">
+                <h2>Use this tool to experiment with the API</h2>
+                <br/>
+                coming soon!
+                <br/>
+                <br/>
             </div>
         </div>
     </center>
