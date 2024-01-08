@@ -8,9 +8,17 @@
     <link rel="stylesheet" href="style/vars.css">
     <link rel="stylesheet" href="style/controls.css">
     <link rel="stylesheet" href="style/chess.css">
+    <link rel="stylesheet" href="style/api.css">
     <title>Simple chess</title>
 </head>
 <body>
+    <div id="modal_container" class="hidden">
+        <div id="modal_background"></div>
+        <div id="endgame_modal">
+            <div id="endgame_message">Game over!</div>
+            <div id="endgame_button" class="neutral_button">OK</div>
+        </div>
+    </div>
     <div id="dragging_piece"></div>
     <center>
         <div id="options_tabs">
@@ -22,7 +30,7 @@
             </div>
         </div>
         <div id="options_container">
-            <div id="play_section">
+            <div id="play_section" class="hidden">
                 <div id="board" class="not_flipped"></div>
                 <div id="controls_vertical_container">
                     <div id="restart_button">
@@ -45,6 +53,7 @@
                                 This is a human player
                             </div>
                             <div id="black_turn" class="your_turn hidden">
+                                <br/>
                                 Your turn!
                             </div>
                             <div id="black_select_level">
@@ -104,6 +113,7 @@
                                 This is a human player
                             </div>
                             <div id="white_turn" class="your_turn">
+                                <br/>
                                 Your turn!
                             </div>
                             <div id="white_select_level" class="hidden">
@@ -138,17 +148,149 @@
                     </div>
                 </div>
             </div>
-            <div id="api_section" class="hidden">
+            <div id="api_section">
+                <h2>Guide to simpleChessMove API</h2>
+                The simpleChessMove API is publicly available and can suggest a move for any game. Below is an example query:
+                <br/>
+                <p class="api_text_box">
+                    fetch("https://airbackend.com/chessMove/api.php", {
+                        <br/>
+                        &nbsp; &nbsp;
+                        method: "POST",
+                        <br/>
+                        &nbsp; &nbsp;
+                        body: JSON.stringify({
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            request: "nextMove",
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            gameState: "rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNRw1111",
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            level: 3
+                            <br/>
+                            &nbsp; &nbsp;
+                        }).then((result) => {
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            result.json().then((jsonResult) => {
+                                <br/>
+                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                console.log(jsonResult);
+                            <br/>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            });
+                        <br/>
+                        &nbsp; &nbsp;
+                        });
+                        <br/>
+                    });
+                </p>
+                <br/>
+                The parameter "gameState" is a string that contains all the relevant information about the game:
                 <br/>
                 <br/>
-                <br/>
-                Explore the API here
-                <br/>
-                <br/>
-                (coming soon)
+                The first 64 characters represent the spaces on the board. White pieces are indicated by lowercase letters, black pieces
+                are indicated by uppdercase letters, and dashes indicate empty spaces. The ranks are listed in ascending order with spaces
+                left to right from white's perspective, so the first 8 characters, "rnbqkbnr", represent white's major pieces.
                 <br/>
                 <br/>
+                The next character is either "w" or "b" and indicates who's turn it is. The API will return a move for that side.
                 <br/>
+                <br/>
+                The next four characters are either 1s or 0s and indicate which castle moves are still allowed in order of white kingside, white queenside,
+                black kingside, and black queenside.
+                <br/>
+                <br/>
+                The state shown above is a new game, before white has taken its first move. Suppose white moves pawn to e4. Then the state would look
+                like this:
+                <p class="api_text_box">
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            rnbqkbnrpppp-ppp------------p-------------------PPPPPPPPRNBQKBNRb111134     
+                </p>
+                <br/>
+                Note that in addition to the pawn moving, two additional characters, "34", are attached
+                to the end of the string.
+                <br/>
+                <br/>
+                Those two optional characters indicate that the most recent move was a two-space pawn move,
+                so the API can consider en passant moves in its response. The two characters represent the location
+                of the pawn that just moved, in [row, column] order, both zero-indexed. So the pawn that just moved
+                is now on row 3, in column 4. Space [0, 0] is the first rank, all the way to white's left.
+                <br/>
+                <br/>
+                The "request" parameter specifies what is requested of the API, and can be "nextMove" or "checkMove".
+                "checkMove" sends a move and requests the API to determine if it is a legal move; see below for more about that.
+                <br/>
+                <br/>
+                The "level" parameter is an integer from 0 to 5 and specifies the level of analysis the API should use. The algorithm
+                will look that number of moves ahead and choose a move that leads to checkmate, or, if that's impossible, maximizes
+                the resulting advantage in points after the specified number of moves. Level 0 will not look ahead at all and simply
+                returns a random move.
+                <br/>
+                <br/>
+                <b>Important note:</b> Level 5 is experimental. It may time out, return a result worse than level 4, or
+                return an error. All other levels should suggest a move within 10 seconds.
+                <br/>
+                <br/>
+                The suggested move comes back in a similar form as the request, with the state of the game after the
+                suggested move specified by a single string. For the query above, the unpacked json result "jsonResult" would look
+                something like this:
+                <p class="api_text_box">
+                {
+                    <br/>
+                    &nbsp; &nbsp; 
+                    prev: "rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNRb1111",
+                    <br/>
+                    &nbsp; &nbsp;
+                    score: 0,
+                    <br/>
+                    &nbsp; &nbsp;
+                    level: 3,
+                    <br/>
+                    &nbsp; &nbsp;
+                    move: [
+                        <br/>
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        [6, 3],
+                        <br/>
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        [4, 3]
+                    <br/>
+                    &nbsp; &nbsp;
+                    ],
+                    <br/>
+                    &nbsp; &nbsp;
+                    next: "rnbqkbnrpppp-ppp------------p-------------------PPPPPPPPRNBQKBNRw1111"
+                <br/>    
+                }  
+                </p>
+                <br/>
+                "next" in this response is the state of the game after the recommended move is made.
+                <br/>
+                <br/>
+                The response also comes with additional data: "prev" is the game state was sent in the request. "score" is the
+                total of all white's pieces' points minus the total of all black's piece's points(So white wants to increase this
+                number and black wants to decrease it). "level" is the number of moves ahead the algorithm looked. And "move" is
+                the suggested move in array form. It's an array containing two subarrays, which are the beginning and ending coordinates
+                of the piece to be moved.
+                <br/>
+                <br/>
+                For special moves (castling, en passant, and pawn promotion) the "move" array will have a third element, a string, indicating the
+                special move:
+                <br/>
+                &nbsp; &nbsp;
+                "castle" indicates a castle move. The coordinates will be for moving the king.
+                <br/>
+                &nbsp; &nbsp;
+                "enPassant" indicates an en passant move. The coordinates will be for moving the capturing pawn.
+                <br/>
+                &nbsp; &nbsp;
+                Any other character indicates a pawn promotion, and the character represents the new piece that should replace the pawn.
+                <br/>
+                &nbsp; &nbsp;
+                Ex: [[6, 3], [7, 3], "r"] is a pawn move from [6, 3] to [7, 3] and promoting it to a white rook.
             </div>
         </div>
     </center>

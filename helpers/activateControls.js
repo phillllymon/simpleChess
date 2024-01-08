@@ -24,6 +24,9 @@ export function activateBoardControls() {
     activateLevelButtons();
     activateNeutralButtons();
     activateRestartButton();
+    document.getElementById("endgame_button").addEventListener("click", () => {
+        document.getElementById("modal_container").classList.add("hidden");
+    });
 }
 
 function activateNeutralButtons() {

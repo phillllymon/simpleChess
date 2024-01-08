@@ -8,7 +8,18 @@ export function requestAndMakeComputerMove() {
         const level = document.game.aiLevels[document.game.turn];
         requestComputerMove(level).then((nextMove) => {
             if (nextMove.length < 64) {
-                alert(nextMove);
+                let message = {
+                    "w is checkmated": "Black wins!",
+                    "b is checkmated": "White wins!",
+                    "stalemate": "Game over: stalemate",
+                    "insufficient": "Game over: draw by insufficient material"
+                }[nextMove];
+                if (message === undefined) {
+                    message = "Game over";
+                }
+                document.getElementById("endgame_message").innerHTML = message;
+                document.getElementById("modal_container").classList.remove("hidden");
+
             } else {
                 if (!document.rejectAiMove) { // see activateControls.js/switchSides
                     const updatedGame = unpackGame(nextMove);

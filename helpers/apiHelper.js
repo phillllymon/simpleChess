@@ -25,6 +25,7 @@ export function validateMove(move) {
 
 export function requestComputerMove(level = 3) {
     return new Promise((resolve) => {
+        console.log(packageGame(document.game));
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
             body: JSON.stringify({
@@ -37,6 +38,7 @@ export function requestComputerMove(level = 3) {
                 if (r.gameOver) {
                     resolve(r.gameOver);
                 } else {
+                    console.log(r);
                     resolve(r.next);
                 }
             });

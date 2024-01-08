@@ -62,9 +62,7 @@
 }
 
 #api_section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     background-color: var(--api-section-color);
+    text-align: left;
+    padding: 20px;
 }
