@@ -19,6 +19,8 @@ export function requestAndMakeComputerMove() {
                 }
                 document.getElementById("endgame_message").innerHTML = message;
                 document.getElementById("modal_container").classList.remove("hidden");
+                document.getElementById("black_message").classList.add("hidden");
+                document.getElementById("white_message").classList.add("hidden");
 
             } else {
                 if (!document.rejectAiMove) { // see activateControls.js/switchSides
