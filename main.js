@@ -1,5 +1,6 @@
 import { activateTabControls, activateBoardControls } from "./helpers/activateControls.js";
 import { populateBoard } from "./helpers/board.js";
+import { activateApiControls } from "./helpers/apiControls.js";
 
 
 // main
@@ -7,6 +8,7 @@ import { populateBoard } from "./helpers/board.js";
 activateTabControls();
 populateBoard(); // also activates dragging, selecting, and piece move behavior
 activateBoardControls();
+activateApiControls();
 
 document.rejectAiMove = false;  // needed only if switch sides
 

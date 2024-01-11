@@ -72,3 +72,29 @@
     padding: 20px;
     box-sizing: border-box;
 }
+
+#explore_api_section {
+    background-color: var(--api-section-color);
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#api_input_section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#api_input_labels {
+    text-align: right;
+    margin-right: 10px;
+}
+
+#api_inputs {
+    text-align: left;
+}
+
+.api_input {
+    width: 460px;
+}
