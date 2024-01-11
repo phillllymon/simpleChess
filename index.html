@@ -398,56 +398,63 @@
                 <br/>
                 <br/>
                 <div id="api_input_section">
-                    <div id="api_input_labels">
-                        request:
-                        <br/>
-                        gameState:
-                        <br/>
-                        level:
-                        <br/>
-                        move:
-                    </div>
-                    <div id="api_inputs">
-                        <input type="text" id="request_input" class="api_input" />
-                        <br/>
-                        <input type="text" id="state_input" class="api_input" />
-                        <br/>
-                        <input type="text" id="level_input" class="api_input" />
-                        <br/>
-                        <input type="text" id="move_input" class="api_input" />
-                    </div>
+                    <table>
+                        <tr>
+                            <td class="api_input_label">
+                                request:
+                            </td>
+                            <td>
+                                <input type="text" id="request_input" class="api_input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="api_input_label">
+                                gameState:
+                            </td>
+                            <td>
+                                <input type="text" id="state_input" class="api_input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="api_input_label">
+                                level:
+                            </td>
+                            <td>
+                                <input type="text" id="level_input" class="api_input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="api_input_label">
+                                move:
+                            </td>
+                            <td>
+                                <input type="text" id="move_input" class="api_input" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <br/>
                 <center><button id="api_submit_button">Submit</button></center>
                 jsonResponse:
                 <p id="response_show_box" class="api_text_box">
-                    {
+                    {   
                         <br/>
-                        &nbsp; &nbsp; 
-                        prev: "rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNRb1111",
+                        &nbsp;&nbsp;
+                        "prev": "rnbqkbnrpppppppp--------------------------------PPPPPPPPRNBQKBNRw1111",
                         <br/>
-                        &nbsp; &nbsp;
-                        score: 0,
+                        &nbsp;&nbsp;
+                        "score": 0,
                         <br/>
-                        &nbsp; &nbsp;
-                        level: 3,
+                        &nbsp;&nbsp;
+                        "level": 3,
                         <br/>
-                        &nbsp; &nbsp;
-                        move: [
-                            <br/>
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            [6, 3],
-                            <br/>
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            [4, 3]
+                        &nbsp;&nbsp;
+                        "move": [[0,1],[2,2]],
                         <br/>
-                        &nbsp; &nbsp;
-                        ],
-                        <br/>
-                        &nbsp; &nbsp;
-                        next: "rnbqkbnrpppp-ppp------------p-------------------PPPPPPPPRNBQKBNRw1111"
-                    <br/>    
-                    }  
+                        &nbsp;&nbsp;
+                        "next": "r-bqkbnrpppppppp--n-----------------------------PPPPPPPPRNBQKBNRb1111"
+                    <br/>
+                    }
                     </p>
                 <br/>
             </div>
