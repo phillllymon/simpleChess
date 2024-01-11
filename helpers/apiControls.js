@@ -62,12 +62,20 @@ export function activateApiControls() {
             }
         });
 
+        const responseBox = document.getElementById("response_show_box");
+        responseBox.classList.add("center_loader");
+        const loader = document.createElement("div");
+        loader.classList.add("loader");
+        responseBox.innerHTML = "";
+        responseBox.appendChild(loader);
+
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
             body: JSON.stringify(params)
         }).then((result) => {
             result.json().then((jsonResult) => {
-                document.getElementById("response_show_box").innerHTML = makeFriendly(JSON.stringify(jsonResult));
+                responseBox.classList.remove("center_loader");
+                responseBox.innerHTML = makeFriendly(JSON.stringify(jsonResult));
             });
         });
     });
