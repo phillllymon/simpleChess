@@ -43,6 +43,10 @@ export function activateBoardControls() {
         document.getElementById("modal_container").classList.add("hidden");
         document.getElementById("endgame_modal").classList.add("hidden");
     });
+    document.getElementById("cert_button").addEventListener("click", () => {
+        document.getElementById("modal_container").classList.add("hidden");
+        document.getElementById("cert_modal").classList.add("hidden");
+    });
 }
 
 function activateNeutralButtons() {

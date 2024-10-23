@@ -14,12 +14,32 @@
 <body>
     <div id="modal_container" class="hidden">
         <div id="modal_background"></div>
-        <div id="promotion_modal" class="hidden">
+        <div id="promotion_modal" class="modal hidden">
             woo!
         </div>
-        <div id="endgame_modal" class="hidden">
+        <div id="endgame_modal" class="modal hidden">
             <div id="endgame_message">Game over!</div>
             <div id="endgame_button" class="neutral_button">OK</div>
+        </div>
+        <div id="cert_modal" class="modal cert-modal hidden">
+            <div>
+                Uh oh, Your browser isn't playing nice with our API certificate. You can fix
+                this by directly visiting the API url below and telling your browser to accept
+                the connection.
+                <br/>
+                <br/>
+                In the linked new tab, select "Advanced" and then "Proceed to airbackend.com"
+                <br/>
+                <br/>
+
+                <a href="https://airbackend.com/chessMove/api.php" target="false">API link</a>
+            </div>
+            <br/>
+            <div>
+                After that the API should work.
+            </div>
+            <br/>
+            <div id="cert_button" class="neutral_button">OK</div>
         </div>
     </div>
     <div id="dragging_piece"></div>

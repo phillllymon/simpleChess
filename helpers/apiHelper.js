@@ -74,5 +74,6 @@ export function unpackGame(str) {
 }
 
 function promptCertOverride() {
-    console.log("cert override");
+    document.getElementById("modal_container").classList.remove("hidden");
+    document.getElementById("cert_modal").classList.remove("hidden");
 }
