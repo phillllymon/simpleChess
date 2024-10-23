@@ -4,26 +4,26 @@ import { validateMove } from "./apiHelper.js";
 
 export function populateBoard() {
     document.game = {
-        grid: [
-            ["R", "N", "B", "Q", "K", "B", "N", "R"],
-            ["P", "P", "P", "P", "P", "P", "P", "P"],
-            ["-", "-", "-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-", "-", "-"],
-            ["-", "-", "-", "-", "-", "-", "-", "-"],
-            ["p", "p", "p", "p", "p", "p", "p", "p"],
-            ["r", "n", "b", "q", "k", "b", "n", "r"]
-        ],
         // grid: [
-        //     ["-", "R", "B", "K", "-", "-", "N", "R"],
-        //     ["P", "P", "-", "-", "P", "-", "P", "P"],
-        //     ["-", "-", "-", "P", "-", "q", "-", "-"],
-        //     ["-", "-", "P", "-", "-", "b", "-", "-"],
-        //     ["-", "-", "-", "-", "p", "-", "-", "-"],
-        //     ["N", "-", "k", "-", "-", "-", "-", "-"],
-        //     ["p", "p", "p", "-", "-", "p", "p", "p"],
-        //     ["r", "n", "b", "-", "-", "-", "n", "r"]
+        //     ["R", "N", "B", "Q", "K", "B", "N", "R"],
+        //     ["P", "P", "P", "P", "P", "P", "P", "P"],
+        //     ["-", "-", "-", "-", "-", "-", "-", "-"],
+        //     ["-", "-", "-", "-", "-", "-", "-", "-"],
+        //     ["-", "-", "-", "-", "-", "-", "-", "-"],
+        //     ["-", "-", "-", "-", "-", "-", "-", "-"],
+        //     ["p", "p", "p", "p", "p", "p", "p", "p"],
+        //     ["r", "n", "b", "q", "k", "b", "n", "r"]
         // ],
+        grid: [
+            ["K", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "P", "P"],
+            ["-", "q", "-", "-", "-", "q", "-", "-"],
+            ["-", "-", "-", "-", "-", "b", "-", "-"],
+            ["-", "-", "-", "-", "p", "-", "-", "-"],
+            ["-", "-", "k", "-", "-", "-", "-", "-"],
+            ["p", "p", "p", "-", "P", "p", "p", "p"],
+            ["r", "n", "b", "-", "-", "-", "-", "r"]
+        ],
         turn: "w",
         canCastle: [1, 1, 1, 1],
         enPassant: false,
@@ -151,6 +151,12 @@ function handleMouseup(space) {
     }
 }
 
+function getPromotionChoice(move) {
+    return new Promise((resolve) => {
+        // TODO!!!!!!!!!!
+    });
+}
+
 function handleMoveAttempt(from, to) {
     stopPlayerControl();
     return new Promise((resolve) => {
@@ -163,31 +169,63 @@ function handleMoveAttempt(from, to) {
     
         const move = packageMove(fromPos, toPos);
 
-        validateMove(move).then((valid) => {
-            if (valid) {
-                makeMove(document.game.grid, move);
-                updateBoard(document.game.grid);
-                const color = document.game.turn === "b" ? "black" : "white";
-                document.getElementById(`${color}_turn`).classList.add("hidden");
-                document.game.turn = document.game.turn === "w" ? "b" : "w";
-                // see if next move is computer
-                if (document.game.players[document.game.turn] === "ai") {
-                    computerTakeTurn();
-                    const oppColor = document.game.turn === "b" ? "white" : "black";
-                    const yourTurn = document.getElementById(`${oppColor}_turn`);
-                    yourTurn.classList.add("hidden");
+        // check if pawn promotion
+        const piece = document.game.grid[fromPos[0]][fromPos[1]];
+        if ((piece === "p" && toPos[0] === 0) || (piece === "P" && toPos[0] === 7)) {
+            getPromotionChoice(move).then((proMove) => {
+                validateMove(proMove).then((valid) => {
+                    if (valid) {
+                        makeMove(document.game.grid, proMove);
+                        updateBoard(document.game.grid);
+                        const color = document.game.turn === "b" ? "black" : "white";
+                        document.getElementById(`${color}_turn`).classList.add("hidden");
+                        document.game.turn = document.game.turn === "w" ? "b" : "w";
+                        // see if next move is computer
+                        if (document.game.players[document.game.turn] === "ai") {
+                            computerTakeTurn();
+                            const oppColor = document.game.turn === "b" ? "white" : "black";
+                            const yourTurn = document.getElementById(`${oppColor}_turn`);
+                            yourTurn.classList.add("hidden");
+                        } else {
+                            startPlayerControl();
+                            const oppColor = document.game.turn === "w" ? "white" : "black";
+                            const yourTurn = document.getElementById(`${oppColor}_turn`);
+                            yourTurn.classList.remove("hidden");
+                        }
+                        resolve(true);
+                    } else {
+                        startPlayerControl();
+                        resolve(false);
+                    }
+                });
+            });
+        } else {
+            validateMove(move).then((valid) => {
+                if (valid) {
+                    makeMove(document.game.grid, move);
+                    updateBoard(document.game.grid);
+                    const color = document.game.turn === "b" ? "black" : "white";
+                    document.getElementById(`${color}_turn`).classList.add("hidden");
+                    document.game.turn = document.game.turn === "w" ? "b" : "w";
+                    // see if next move is computer
+                    if (document.game.players[document.game.turn] === "ai") {
+                        computerTakeTurn();
+                        const oppColor = document.game.turn === "b" ? "white" : "black";
+                        const yourTurn = document.getElementById(`${oppColor}_turn`);
+                        yourTurn.classList.add("hidden");
+                    } else {
+                        startPlayerControl();
+                        const oppColor = document.game.turn === "w" ? "white" : "black";
+                        const yourTurn = document.getElementById(`${oppColor}_turn`);
+                        yourTurn.classList.remove("hidden");
+                    }
+                    resolve(true);
                 } else {
                     startPlayerControl();
-                    const oppColor = document.game.turn === "w" ? "white" : "black";
-                    const yourTurn = document.getElementById(`${oppColor}_turn`);
-                    yourTurn.classList.remove("hidden");
+                    resolve(false);
                 }
-                resolve(true);
-            } else {
-                startPlayerControl();
-                resolve(false);
-            }
-        });
+            });
+        }
     })
 }
 
@@ -228,7 +266,7 @@ export function makeMove(grid, move) {
             grid[to[0]][0] = "-";
         }
     }
-
+    
     // check for enPassant
     if (document.game.enPassant) {
         if (piece === "p") {
@@ -249,7 +287,6 @@ export function makeMove(grid, move) {
         }
     }
 
-
     // record enPassant
     if (piece === "p") {
         if (from[0] - to[0] > 1) {
@@ -269,6 +306,11 @@ export function makeMove(grid, move) {
     // move piece as usual
     grid[to[0]][to[1]] = grid[from[0]][from[1]];
     grid[from[0]][from[1]] = "-";
+
+    // check for pawn promotion
+    if ((piece === "p" && to[0] === 0) || (piece === "P" && to[0] === 7)) {
+        grid[to[0]][to[1]] = move[2];
+    }
 }
 
 // between frontend and backend

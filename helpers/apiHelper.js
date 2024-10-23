@@ -16,6 +16,9 @@ export function validateMove(move) {
                 res.json().then((r) => {
                     resolve(r.moveValid);
                 });
+            }).catch((err) => {
+                console.log(err.message);
+                promptCertOverride();
             });
         } else {
             resolve(false);
@@ -25,7 +28,6 @@ export function validateMove(move) {
 
 export function requestComputerMove(level = 3) {
     return new Promise((resolve) => {
-        console.log(packageGame(document.game));
         fetch("https://airbackend.com/chessMove/api.php", {
             method: "POST",
             body: JSON.stringify({
@@ -38,10 +40,12 @@ export function requestComputerMove(level = 3) {
                 if (r.gameOver) {
                     resolve(r.gameOver);
                 } else {
-                    console.log(r);
                     resolve(r.next);
                 }
             });
+        }).catch((err) => {
+            console.log(err.message);
+            promptCertOverride();
         });
     });
 
@@ -67,4 +71,8 @@ export function unpackGame(str) {
             str.split("").slice(69, 71)
         ) : undefined
     }
+}
+
+function promptCertOverride() {
+    console.log("cert override");
 }

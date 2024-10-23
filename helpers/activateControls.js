@@ -41,6 +41,7 @@ export function activateBoardControls() {
     activateRestartButton();
     document.getElementById("endgame_button").addEventListener("click", () => {
         document.getElementById("modal_container").classList.add("hidden");
+        document.getElementById("endgame_modal").classList.add("hidden");
     });
 }
 
